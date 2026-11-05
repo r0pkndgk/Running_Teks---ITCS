@@ -3,129 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IT Student Pride — Monochromatic Running Text</title>
+  <title>IT Student Pride — M. Nabil Akmal Qolbi</title>
   <style>
     /* ==========================================================================
        1. CSS VARIABLES & RESET (PALET WARNA MONOKROMATIK)
        ========================================================================== */
     :root {
-      --bg-color: #09090b;        /* Hitam pekat modern (Deep Slate) */
-      --surface-card: #121216;    /* Abu-abu gelap untuk kartu & kontainer */
-      --surface-stage: #0f0f13;   /* Abu-abu panggung visual */
-      --border-color: #27272a;    /* Garis batas tipis monokrom */
-      --border-glow: #3f3f46;     /* Garis batas dengan aksen glow */
-      --text-white: #ffffff;      /* Putih solid 100% */
-      --text-muted: #a1a1aa;      /* Perak redup untuk metadata & chip */
-      --text-dim: #52525b;        /* Abu-abu redup untuk grid & counter-marquee */
+      --bg-color:      #09090b;
+      --surface-card:  #121216;
+      --surface-stage: #0f0f13;
+      --border-color:  #27272a;
+      --border-glow:   #3f3f46;
+      --text-white:    #ffffff;
+      --text-muted:    #a1a1aa;
+      --text-dim:      #52525b;
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --marquee-speed: 14s;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-color);
       color: var(--text-white);
-      font-family: var(--font-sans);
+      font-family: var(--font-mono);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       overflow-x: hidden;
-      position: relative;
     }
 
     /* ==========================================================================
-       2. LATAR BELAKANG KISI VEKTOR (CYBERNETIC MONOCHROME GRID)
+       2. LATAR BELAKANG KISI VEKTOR (MONOCHROME GRID)
        ========================================================================== */
-    .background-grid {
+    .bg-grid {
       position: fixed;
       inset: 0;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-image:
+        linear-gradient(to right,  rgba(255,255,255,.028) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.028) 1px, transparent 1px);
       background-size: 36px 36px;
       pointer-events: none;
       z-index: 0;
     }
 
-    .background-vignette {
+    .bg-vignette {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, transparent 30%, rgba(9, 9, 11, 0.85) 85%);
+      background: radial-gradient(circle at center, transparent 30%, rgba(9,9,11,.88) 85%);
       pointer-events: none;
       z-index: 0;
     }
 
-    /* Container pembungkus utama */
     .app-container {
       position: relative;
       z-index: 1;
       width: 100%;
       max-width: 1100px;
       margin: 0 auto;
-      padding: 16px 20px;
+      padding: 16px 20px 0;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      justify-content: space-between;
     }
 
     /* ==========================================================================
-       3. TECHNICAL HUD HEADER
+       3. HUD HEADER
        ========================================================================== */
     .hud-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 18px;
-      background: rgba(18, 18, 22, 0.65);
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 11px 16px;
+      background: rgba(18,18,22,.7);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
-    .brand-section {
+    .brand {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
     .status-dot {
-      width: 9px;
-      height: 9px;
-      background-color: var(--text-white);
+      width: 9px; height: 9px;
+      background: var(--text-white);
       border-radius: 50%;
       box-shadow: 0 0 10px var(--text-white);
+      flex-shrink: 0;
     }
 
     .brand-title {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: .82rem;
       font-weight: 700;
       letter-spacing: 2px;
       color: var(--text-white);
     }
 
-    .hud-badges {
-      display: flex;
-      gap: 8px;
-    }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    .badge-chip {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
+    .chip {
+      font-size: .66rem;
       color: var(--text-muted);
       background: var(--surface-card);
       border: 1px solid var(--border-color);
-      padding: 4px 8px;
+      padding: 3px 8px;
       border-radius: 4px;
       letter-spacing: 1px;
     }
@@ -135,14 +123,14 @@
        ========================================================================== */
     .counter-strip {
       width: 100%;
-      height: 34px;
+      height: 32px;
       overflow: hidden;
       border: 1px solid var(--border-color);
       border-radius: 6px;
       background: #0b0b0e;
       display: flex;
       align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .counter-track {
@@ -152,68 +140,56 @@
       will-change: transform;
     }
 
-    .counter-content {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
+    .counter-item {
+      font-size: .72rem;
       color: var(--text-dim);
       letter-spacing: 3px;
       white-space: nowrap;
-      padding-right: 40px;
+      padding-right: 60px;
     }
 
     @keyframes counterScroll {
-      0% {
-        transform: translateX(-50%);
-      }
-      100% {
-        transform: translateX(0%);
-      }
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0%);  }
     }
 
     /* ==========================================================================
-       5. PANGGUNG RUNNING TEXT UTAMA (SEAMLESS MARQUEE HERO)
+       5. PANGGUNG RUNNING TEXT UTAMA
        ========================================================================== */
     .marquee-stage {
       position: relative;
-      background-color: var(--surface-stage);
+      background: var(--surface-stage);
       border: 1.5px solid var(--border-glow);
-      border-radius: 16px;
-      padding: 38px 0;
+      border-radius: 14px;
+      padding: 36px 0;
       overflow: hidden;
-      margin-bottom: 24px;
-      box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.7),
-        0 0 35px rgba(255, 255, 255, 0.05);
-      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+      margin-bottom: 18px;
+      box-shadow:
+        0 15px 35px rgba(0,0,0,.7),
+        0 0 35px rgba(255,255,255,.045);
+      transition: box-shadow .3s, border-color .3s;
     }
 
-    /* Reticle sudut ala HUD terminal (+) */
-    .reticle {
-      position: absolute;
-      font-family: var(--font-mono);
-      font-size: 14px;
-      color: var(--text-dim);
-      user-select: none;
-    }
-    .reticle-tl { top: 8px; left: 12px; }
-    .reticle-tr { top: 8px; right: 12px; }
-    .reticle-bl { bottom: 8px; left: 12px; }
-    .reticle-br { bottom: 8px; right: 12px; }
+    /* Reticle sudut (+) */
+    .rt { position: absolute; font-size: 14px; color: var(--text-dim); user-select: none; }
+    .rt-tl { top: 8px;  left: 12px;  }
+    .rt-tr { top: 8px;  right: 12px; }
+    .rt-bl { bottom: 8px; left: 12px;  }
+    .rt-br { bottom: 8px; right: 12px; }
 
     .stage-label {
       position: absolute;
       top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
+      left: 50%; transform: translateX(-50%);
+      font-size: .62rem;
       letter-spacing: 2px;
       color: var(--text-muted);
       font-weight: 700;
       user-select: none;
+      white-space: nowrap;
     }
 
-    /* GRADIENT FEATHERING MASK: Memudarkan tepi teks secara halus */
+    /* Gradient Feathering Mask */
     .marquee-viewport {
       width: 100%;
       overflow: hidden;
@@ -221,7 +197,7 @@
       -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
 
-    /* TRACK ANIMASI BERJALAN */
+    /* Track berjalan */
     .marquee-track {
       display: flex;
       width: max-content;
@@ -229,400 +205,376 @@
       will-change: transform;
     }
 
-    /* ITEM TEKS BESAR, BOLD, & SOLID */
+    .marquee-track.reverse { animation-direction: reverse; }
+
+    /* Teks utama bold */
     .marquee-text {
-      font-family: var(--font-mono);
-      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-size: clamp(1.7rem, 5vw, 3rem);
       font-weight: 900;
       letter-spacing: 4px;
       color: var(--text-white);
       white-space: nowrap;
       padding-right: 50px;
       text-transform: uppercase;
-      text-shadow: 
-        0 0 12px rgba(255, 255, 255, 0.7),
-        0 0 30px rgba(255, 255, 255, 0.3);
+      text-shadow:
+        0 0 12px rgba(255,255,255,.75),
+        0 0 30px rgba(255,255,255,.3);
       user-select: none;
-      transition: text-shadow 0.3s ease;
+      transition: text-shadow .3s;
     }
 
-    /* LOGIKA KEYFRAMES SEAMLESS LOOPING (0% KE -50%) */
-    @keyframes marqueeScroll {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
-    }
-
-    /* Reverse Direction Class */
-    .marquee-track.reverse {
-      animation-direction: reverse;
-    }
-
-    /* Outline Wireframe Mode */
     .marquee-text.outline-mode {
       color: transparent;
       -webkit-text-stroke: 1.5px var(--text-white);
       text-shadow: none;
     }
 
-    /* No-Glow Mode */
-    .no-glow .marquee-text {
-      text-shadow: none;
-    }
-    .no-glow.marquee-stage {
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    .no-glow .marquee-text   { text-shadow: none; }
+    .no-glow.marquee-stage   { box-shadow: 0 15px 35px rgba(0,0,0,.7); }
+
+    /* ---- KEYFRAMES SEAMLESS LOOP ---- */
+    @keyframes marqueeScroll {
+      from { transform: translateX(0);    }
+      to   { transform: translateX(-50%); }
     }
 
     /* ==========================================================================
-       6. KARTU TYPEWRITER TERMINAL (EFEK MESIN TIK & BLINKING CURSOR)
+       6. KARTU TYPEWRITER TERMINAL
        ========================================================================== */
-    .typewriter-card {
-      background-color: var(--surface-card);
+    .tw-card {
+      background: var(--surface-card);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 20px 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      padding: 18px 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.5);
     }
 
-    .terminal-header {
+    .tw-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 12px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--border-color);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
-    .terminal-title {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      letter-spacing: 1.5px;
-    }
+    .tw-title { font-size: .72rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1.5px; }
+    .tw-fmt   { font-size: .62rem; color: var(--text-dim); }
+    .tw-cmd   { font-size: .82rem; color: var(--text-dim); margin-bottom: 8px; }
 
-    .terminal-format {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--text-dim);
-    }
-
-    .terminal-cmd {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      margin-bottom: 8px;
-    }
-
-    .terminal-output {
-      font-family: var(--font-mono);
-      font-size: clamp(1rem, 2.8vw, 1.35rem);
+    .tw-output {
+      font-size: clamp(.95rem, 2.6vw, 1.3rem);
       font-weight: 800;
-      letter-spacing: 1.2px;
       display: flex;
       align-items: center;
       flex-wrap: wrap;
+      gap: 4px;
     }
 
-    .output-prefix {
-      color: var(--text-muted);
-      margin-right: 8px;
-    }
+    .tw-prefix { color: var(--text-muted); }
+    .typed-text { color: var(--text-white); text-shadow: 0 0 10px rgba(255,255,255,.45); }
 
-    .typed-text {
-      color: var(--text-white);
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    }
-
-    .blinking-cursor {
+    .cursor {
       display: inline-block;
-      margin-left: 4px;
       color: var(--text-white);
-      animation: blink 0.9s infinite step-start;
-      font-weight: 900;
+      animation: blink .9s infinite step-start;
     }
 
-    @keyframes blink {
-      50% { opacity: 0; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ==========================================================================
+       7. KARTU IDENTITAS (NAMA, NIM, KELAS) — STATIS & ELEGAN
+       ========================================================================== */
+    .identity-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 22px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .identity-inner {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .id-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .id-label {
+      font-size: .58rem;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+
+    .id-value {
+      font-size: clamp(.8rem, 2vw, 1rem);
+      font-weight: 700;
+      color: var(--text-white);
+      letter-spacing: 1px;
+    }
+
+    .id-sep {
+      width: 1px;
+      height: 32px;
+      background: var(--border-color);
+      flex-shrink: 0;
     }
 
     /* ==========================================================================
-       7. INTERACTIVE CONTROL DECK (TOMBOL KONTROL)
+       8. CONTROL DECK
        ========================================================================== */
     .control-deck {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       background: var(--surface-card);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 16px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
     }
 
-    .deck-btn {
+    .btn {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: .72rem;
       font-weight: 700;
       letter-spacing: 1px;
       color: var(--text-white);
-      background-color: #1a1a20;
+      background: #1a1a20;
       border: 1px solid var(--border-color);
       border-radius: 6px;
-      padding: 8px 14px;
+      padding: 7px 13px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      transition: background .2s, border-color .2s, box-shadow .2s;
       user-select: none;
     }
 
-    .deck-btn:hover {
-      background-color: #272732;
-      border-color: var(--border-glow);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    }
-
-    .deck-btn:active {
-      transform: scale(0.97);
-    }
+    .btn:hover  { background: #272732; border-color: var(--border-glow); box-shadow: 0 0 10px rgba(255,255,255,.1); }
+    .btn:active { transform: scale(.97); }
 
     /* ==========================================================================
-       8. FOOTER
+       9. FOOTER
        ========================================================================== */
-    .tech-footer {
+    .footer {
       text-align: center;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: .6rem;
       letter-spacing: 2px;
       color: var(--text-dim);
-      padding: 12px 0 6px 0;
+      padding: 10px 0 14px;
     }
 
     /* ==========================================================================
-       9. RESPONSIVE & ACCESSIBILITY (PREFERS-REDUCED-MOTION)
+       10. RESPONSIVE & AKSESIBILITAS
        ========================================================================== */
-    @media (max-width: 640px) {
-      .hud-header {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
-      }
-      .hud-badges {
-        flex-wrap: wrap;
-      }
-      .marquee-stage {
-        padding: 26px 0;
-      }
+    @media (max-width: 600px) {
+      .marquee-stage { padding: 24px 0; }
+      .id-sep { display: none; }
+      .identity-inner { gap: 14px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .marquee-track {
-        animation-duration: 40s; /* Diperlambat demi kenyamanan aksesibilitas */
-      }
-      .counter-track {
-        animation-duration: 60s;
-      }
+      .marquee-track  { animation-duration: 40s; }
+      .counter-track  { animation-duration: 60s; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Canvas Grid & Radial Vignette -->
-  <div class="background-grid"></div>
-  <div class="background-vignette"></div>
+  <!-- Background -->
+  <div class="bg-grid"></div>
+  <div class="bg-vignette"></div>
 
-  <!-- App Main Content Container -->
   <div class="app-container">
 
-    <!-- 1. Technical HUD Header -->
+    <!-- 1. HUD Header -->
     <header class="hud-header">
-      <div class="brand-section">
+      <div class="brand">
         <div class="status-dot"></div>
-        <div class="brand-title">IT.PRIDE // WEB_RUNTIME</div>
+        <span class="brand-title">IT.PRIDE // WEB_RUNTIME</span>
       </div>
-      <div class="hud-badges">
-        <span class="badge-chip">ARCH: VANILLA HTML/CSS/JS</span>
-        <span class="badge-chip">TARGET: DESKTOP & MOBILE</span>
-        <span class="badge-chip">FPS: 60 (GPU ACCELERATED)</span>
+      <div class="badges">
+        <span class="chip">HTML · CSS · JS</span>
+        <span class="chip">DESKTOP &amp; MOBILE</span>
+        <span class="chip">GPU 60 FPS</span>
       </div>
     </header>
 
-    <!-- Main Content Area -->
     <main>
-      <!-- 2. Ambient Counter Marquee (Jalur Sekunder Arah Berlawanan) -->
-      <section class="counter-strip" aria-hidden="true">
+
+      <!-- 2. Ambient Counter-Marquee -->
+      <div class="counter-strip" aria-hidden="true">
         <div class="counter-track" id="counterTrack">
-          <div class="counter-content">
-            // CODE • ARCHITECTURE • ALGORITHMS • INNOVATION • CYBERNETICS • IT PRIDE //
-          </div>
-          <div class="counter-content">
-            // CODE • ARCHITECTURE • ALGORITHMS • INNOVATION • CYBERNETICS • IT PRIDE //
-          </div>
+          <span class="counter-item">// CODE • ARCHITECTURE • ALGORITHMS • INNOVATION • CYBERNETICS • IT PRIDE //</span>
+          <span class="counter-item">// CODE • ARCHITECTURE • ALGORITHMS • INNOVATION • CYBERNETICS • IT PRIDE //</span>
         </div>
-      </section>
+      </div>
 
-      <!-- 3. Panggung Running Text Utama (Hero Marquee) -->
+      <!-- 3. Panggung Running Text Utama -->
       <section class="marquee-stage" id="marqueeStage">
-        <!-- Reticle Vektor (+) di 4 Sudut -->
-        <span class="reticle reticle-tl">+</span>
-        <span class="reticle reticle-tr">+</span>
-        <span class="reticle reticle-bl">+</span>
-        <span class="reticle reticle-br">+</span>
-        <div class="stage-label">LIVE STREAM // CONTINUOUS MODULO RUNNING TEXT</div>
+        <span class="rt rt-tl">+</span>
+        <span class="rt rt-tr">+</span>
+        <span class="rt rt-bl">+</span>
+        <span class="rt rt-br">+</span>
+        <div class="stage-label">LIVE STREAM // SEAMLESS CSS KEYFRAME MARQUEE</div>
 
-        <!-- Viewport dengan Gradient Mask -->
         <div class="marquee-viewport">
           <div class="marquee-track" id="marqueeTrack">
-            <!-- Salinan Teks 1 -->
-            <div class="marquee-text" id="marqueeText1">
-              AKU BANGGA MENJADI MAHASISWA IT &nbsp;///&nbsp;
-            </div>
-            <!-- Salinan Teks 2 (Seamless Buffer Chaining) -->
-            <div class="marquee-text" id="marqueeText2">
-              AKU BANGGA MENJADI MAHASISWA IT &nbsp;///&nbsp;
-            </div>
+            <div class="marquee-text">AKU BANGGA MENJADI MAHASISWA IT &nbsp;///&nbsp;</div>
+            <div class="marquee-text">AKU BANGGA MENJADI MAHASISWA IT &nbsp;///&nbsp;</div>
           </div>
         </div>
       </section>
 
-      <!-- 4. Kartu Typewriter Terminal (Mesin Tik & Blinking Cursor) -->
-      <section class="typewriter-card">
-        <div class="terminal-header">
-          <span class="terminal-title">TERMINAL_OUTPUT // STDOUT ECHO</span>
-          <span class="terminal-format">UTF-8 / ANSI</span>
+      <!-- 4. Typewriter Terminal -->
+      <section class="tw-card">
+        <div class="tw-header">
+          <span class="tw-title">TERMINAL // STDOUT ECHO</span>
+          <span class="tw-fmt">UTF-8</span>
         </div>
-        <div class="terminal-cmd">> echo "$MAHASISWA_STATEMENT"</div>
-        <div class="terminal-output">
-          <span class="output-prefix">[OUTPUT]:</span>
+        <div class="tw-cmd">&gt; echo "$MAHASISWA_STATEMENT"</div>
+        <div class="tw-output">
+          <span class="tw-prefix">[OUTPUT]:</span>
           <span class="typed-text" id="typewriterOutput"></span>
-          <span class="blinking-cursor">█</span>
+          <span class="cursor">█</span>
         </div>
       </section>
 
-      <!-- 5. Interactive Control Deck -->
-      <section class="control-deck">
-        <button class="deck-btn" id="btnPlayPause">⏸ PAUSE</button>
-        <button class="deck-btn" id="btnDirection">⇄ ARAH: KANAN → KIRI</button>
-        <button class="deck-btn" id="btnSpeed">⚡ KECEPATAN: 1.0X</button>
-        <button class="deck-btn" id="btnGlow">✨ GLOW: ON</button>
-        <button class="deck-btn" id="btnOutline">🔲 TYPE: SOLID</button>
+      <!-- 5. Kartu Identitas Pembuat -->
+      <section class="identity-card">
+        <div class="identity-inner">
+          <div class="id-block">
+            <span class="id-label">Nama</span>
+            <span class="id-value">M. Nabil Akmal Qolbi</span>
+          </div>
+          <div class="id-sep"></div>
+          <div class="id-block">
+            <span class="id-label">NIM</span>
+            <span class="id-value">260605110208</span>
+          </div>
+          <div class="id-sep"></div>
+          <div class="id-block">
+            <span class="id-label">Kelas</span>
+            <span class="id-value">G</span>
+          </div>
+        </div>
       </section>
+
+      <!-- 6. Control Deck -->
+      <section class="control-deck">
+        <button class="btn" id="btnPlayPause">⏸ PAUSE</button>
+        <button class="btn" id="btnDirection">⇄ KANAN → KIRI</button>
+        <button class="btn" id="btnSpeed">⚡ KECEPATAN: 1.0×</button>
+        <button class="btn" id="btnGlow">✨ GLOW: ON</button>
+        <button class="btn" id="btnOutline">▣ SOLID</button>
+      </section>
+
     </main>
 
-    <!-- 6. Footer -->
-    <footer class="tech-footer">
-      CROSS-PLATFORM VANILLA WEB ENGINE // RESPONSIVE ON DESKTOP & MOBILE BROWSERS
+    <!-- 7. Footer -->
+    <footer class="footer">
+      VANILLA HTML · CSS · JS &nbsp;|&nbsp; CROSS-PLATFORM: DESKTOP &amp; MOBILE
     </footer>
 
   </div>
 
   <!-- ==========================================================================
-       10. JAVASCRIPT: LOGIKA KONTROL & ANIMASI TYPEWRITER
+       JAVASCRIPT: KONTROL INTERAKTIF & ANIMASI TYPEWRITER
        ========================================================================== -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // Elemen DOM
-      const marqueeTrack = document.getElementById("marqueeTrack");
-      const counterTrack = document.getElementById("counterTrack");
-      const marqueeStage = document.getElementById("marqueeStage");
-      const marqueeTexts = document.querySelectorAll(".marquee-text");
+
+      /* ---- Referensi Elemen DOM ---- */
+      const marqueeTrack     = document.getElementById("marqueeTrack");
+      const counterTrack     = document.getElementById("counterTrack");
+      const marqueeStage     = document.getElementById("marqueeStage");
+      const marqueeTexts     = document.querySelectorAll(".marquee-text");
       const typewriterOutput = document.getElementById("typewriterOutput");
 
       const btnPlayPause = document.getElementById("btnPlayPause");
       const btnDirection = document.getElementById("btnDirection");
-      const btnSpeed = document.getElementById("btnSpeed");
-      const btnGlow = document.getElementById("btnGlow");
-      const btnOutline = document.getElementById("btnOutline");
+      const btnSpeed     = document.getElementById("btnSpeed");
+      const btnGlow      = document.getElementById("btnGlow");
+      const btnOutline   = document.getElementById("btnOutline");
 
-      // State Kontrol
-      let isPlaying = true;
-      let isRTL = true;
-      let speedMultiplier = 1.0;
-      let isGlowOn = true;
+      /* ---- State ---- */
+      let isPlaying  = true;
+      let isRTL      = true;
+      let speed      = 1.0;  // pengali kecepatan
+      let isGlowOn   = true;
       let isOutlineOn = false;
 
-      // ----------------------------------------------------------------------
-      // A. KONTROL INTERAKTIF (PLAY/PAUSE, SPEED, DIRECTION, GLOW, OUTLINE)
-      // ----------------------------------------------------------------------
+      /* ---- Kontrol: Play / Pause ---- */
       btnPlayPause.addEventListener("click", () => {
         isPlaying = !isPlaying;
-        const playState = isPlaying ? "running" : "paused";
-        marqueeTrack.style.animationPlayState = playState;
-        counterTrack.style.animationPlayState = playState;
+        const state = isPlaying ? "running" : "paused";
+        marqueeTrack.style.animationPlayState  = state;
+        counterTrack.style.animationPlayState  = state;
         btnPlayPause.textContent = isPlaying ? "⏸ PAUSE" : "▶ PLAY";
       });
 
+      /* ---- Kontrol: Arah ---- */
       btnDirection.addEventListener("click", () => {
         isRTL = !isRTL;
         marqueeTrack.classList.toggle("reverse", !isRTL);
-        btnDirection.textContent = isRTL ? "⇄ ARAH: KANAN → KIRI" : "⇄ ARAH: KIRI → KANAN";
+        btnDirection.textContent = isRTL ? "⇄ KANAN → KIRI" : "⇄ KIRI → KANAN";
       });
 
+      /* ---- Kontrol: Kecepatan ---- */
       btnSpeed.addEventListener("click", () => {
-        if (speedMultiplier === 1.0) speedMultiplier = 2.0;
-        else if (speedMultiplier === 2.0) speedMultiplier = 0.5;
-        else speedMultiplier = 1.0;
-
-        const baseDuration = 14; // detik
-        const newDuration = (baseDuration / speedMultiplier) + "s";
-        document.documentElement.style.setProperty("--marquee-speed", newDuration);
-        btnSpeed.textContent = `⚡ KECEPATAN: ${speedMultiplier.toFixed(1)}X`;
+        speed = speed === 1.0 ? 2.0 : speed === 2.0 ? 0.5 : 1.0;
+        document.documentElement.style.setProperty("--marquee-speed", (14 / speed) + "s");
+        btnSpeed.textContent = `⚡ KECEPATAN: ${speed.toFixed(1)}×`;
       });
 
+      /* ---- Kontrol: Glow ---- */
       btnGlow.addEventListener("click", () => {
         isGlowOn = !isGlowOn;
         marqueeStage.classList.toggle("no-glow", !isGlowOn);
         btnGlow.textContent = isGlowOn ? "✨ GLOW: ON" : "✨ GLOW: OFF";
       });
 
+      /* ---- Kontrol: Outline / Solid ---- */
       btnOutline.addEventListener("click", () => {
         isOutlineOn = !isOutlineOn;
         marqueeTexts.forEach(el => el.classList.toggle("outline-mode", isOutlineOn));
-        btnOutline.textContent = isOutlineOn ? "🔲 TYPE: OUTLINE" : "🔲 TYPE: SOLID";
+        btnOutline.textContent = isOutlineOn ? "▣ OUTLINE" : "▣ SOLID";
       });
 
-      // ----------------------------------------------------------------------
-      // B. LOGIKA ANIMASI TYPEWRITER (MESIN TIK OTOMATIS)
-      // ----------------------------------------------------------------------
-      const fullPhrase = "aku bangga menjadi mahasiswa IT";
-      let charIndex = 0;
-      let isTypingForward = true;
+      /* ---- Animasi Typewriter ---- */
+      const phrase = "aku bangga menjadi mahasiswa IT";
+      let idx = 0, forward = true;
 
       function typeLoop() {
-        if (isTypingForward) {
-          if (charIndex <= fullPhrase.length) {
-            typewriterOutput.textContent = fullPhrase.substring(0, charIndex);
-            charIndex++;
-            setTimeout(typeLoop, 85);
-          } else {
-            // Jeda 3 detik saat kalimat selesai diketik
-            isTypingForward = false;
-            setTimeout(typeLoop, 3000);
-          }
+        if (forward) {
+          typewriterOutput.textContent = phrase.slice(0, idx);
+          if (idx < phrase.length) { idx++; setTimeout(typeLoop, 85); }
+          else { forward = false; setTimeout(typeLoop, 3000); }
         } else {
-          // Efek backspace bertahap
-          if (charIndex > 0) {
-            typewriterOutput.textContent = fullPhrase.substring(0, charIndex);
-            charIndex--;
-            setTimeout(typeLoop, 45);
-          } else {
-            isTypingForward = true;
-            setTimeout(typeLoop, 600);
-          }
+          typewriterOutput.textContent = phrase.slice(0, idx);
+          if (idx > 0) { idx--; setTimeout(typeLoop, 45); }
+          else { forward = true; setTimeout(typeLoop, 600); }
         }
       }
 
-      // Mulai animasi mesin tik
       typeLoop();
     });
   </script>
+
 </body>
 </html>
-

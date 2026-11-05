@@ -5,373 +5,405 @@ import javax.swing.*;
 /**
  * =============================================================================
  * Aplikasi Desktop Running Text Monokromatik - IT Student Pride
- * Bahasa Pemrograman: Java (Java Swing Murni)
- * Konsep Desain: Minimalis Monokromatik, Bold, Solid, dan Modern
+ * Bahasa Pemrograman : Java (Java Swing Murni)
+ * Konsep Desain      : Minimalis Monokromatik, Bold, Solid, Modern
+ * -----------------------------------------------------------------------------
+ * Pembuat  : M. Nabil Akmal Qolbi
+ * NIM      : 260605110208
+ * Kelas    : G
  * =============================================================================
  */
 public class RunningTeksIT extends JFrame {
 
-    // Konstanta Kalimat Tugas
-    private static final String PRIMARY_TEXT = "AKU BANGGA MENJADI MAHASISWA IT";
+    // ---- KONSTANTA TEKS ----
+    private static final String PRIMARY_TEXT   = "AKU BANGGA MENJADI MAHASISWA IT";
     private static final String SECONDARY_TEXT = "// CODE • ARCHITECTURE • INNOVATION • CYBERNETICS //";
 
-    // Palet Warna Monokromatik
-    private static final Color COLOR_BG = new Color(0x09, 0x09, 0x0B);        // Deep Slate Black
-    private static final Color COLOR_SURFACE = new Color(0x12, 0x12, 0x16);   // Dark Card Surface
-    private static final Color COLOR_STAGE = new Color(0x0E, 0x0E, 0x12);     // Stage Canvas
-    private static final Color COLOR_BORDER = new Color(0x27, 0x27, 0x2A);    // Border Monokrom
-    private static final Color COLOR_BORDER_GLOW = new Color(0x44, 0x44, 0x52);
-    private static final Color COLOR_TEXT_WHITE = Color.WHITE;
-    private static final Color COLOR_TEXT_MUTED = new Color(0x9E, 0x9E, 0xA8);
-    private static final Color COLOR_TEXT_DIM = new Color(0x52, 0x52, 0x5B);
+    // ---- IDENTITAS PEMBUAT ----
+    private static final String NAMA  = "M. Nabil Akmal Qolbi";
+    private static final String NIM   = "260605110208";
+    private static final String KELAS = "G";
 
-    // Komponen Panggung Animasi
+    // ---- PALET WARNA MONOKROMATIK ----
+    private static final Color COLOR_BG          = new Color(0x09, 0x09, 0x0B);
+    private static final Color COLOR_SURFACE      = new Color(0x12, 0x12, 0x16);
+    private static final Color COLOR_STAGE        = new Color(0x0E, 0x0E, 0x12);
+    private static final Color COLOR_BORDER       = new Color(0x27, 0x27, 0x2A);
+    private static final Color COLOR_BORDER_GLOW  = new Color(0x44, 0x44, 0x52);
+    private static final Color COLOR_TEXT_WHITE   = Color.WHITE;
+    private static final Color COLOR_TEXT_MUTED   = new Color(0x9E, 0x9E, 0xA8);
+    private static final Color COLOR_TEXT_DIM     = new Color(0x52, 0x52, 0x5B);
+
+    // ---- KOMPONEN ----
     private final MarqueeCanvas marqueeCanvas;
-    private boolean isPlaying = true;
+    private boolean isPlaying      = true;
     private boolean moveRightToLeft = true;
-    private int speedMultiplier = 1; // 1x, 2x, 3x
+    private int     speedMultiplier = 1;
 
+    // =========================================================================
+    // KONSTRUKTOR — Merakit seluruh tata letak jendela
+    // =========================================================================
     public RunningTeksIT() {
-        super("IT Student Pride — Monochromatic Running Text (Java Swing)");
+        super("IT Student Pride — M. Nabil Akmal Qolbi | " + NIM + " | Kelas " + KELAS);
 
-        // 1. Konfigurasi Dasar Jendela (JFrame)
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(980, 520);
-        setMinimumSize(new Dimension(680, 420));
-        setLocationRelativeTo(null); // Posisikan di tengah layar monitor
+        setSize(980, 560);
+        setMinimumSize(new Dimension(680, 450));
+        setLocationRelativeTo(null);
         getContentPane().setBackground(COLOR_BG);
-        setLayout(new BorderLayout(0, 16));
+        setLayout(new BorderLayout(0, 0));
 
-        // 2. Technical HUD Header
+        // Header HUD
         add(createHeaderPanel(), BorderLayout.NORTH);
 
-        // 3. Area Tengah: Panggung Utama Animasi Running Text
+        // Area tengah: Panggung Marquee + Terminal Output
         marqueeCanvas = new MarqueeCanvas();
-        JPanel centerWrapper = new JPanel(new BorderLayout(0, 12));
+        JPanel centerWrapper = new JPanel(new BorderLayout(0, 10));
         centerWrapper.setOpaque(false);
-        centerWrapper.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 24));
+        centerWrapper.setBorder(BorderFactory.createEmptyBorder(14, 22, 0, 22));
         centerWrapper.add(marqueeCanvas, BorderLayout.CENTER);
-        centerWrapper.add(createTypewriterStatusPanel(), BorderLayout.SOUTH);
+        centerWrapper.add(createTerminalPanel(), BorderLayout.SOUTH);
         add(centerWrapper, BorderLayout.CENTER);
 
-        // 4. Bagian Bawah: Deck Tombol Kontrol Interaktif & Footer
-        JPanel bottomWrapper = new JPanel(new BorderLayout(0, 8));
+        // Area bawah: Identitas + Kontrol + Footer
+        JPanel bottomWrapper = new JPanel(new BorderLayout(0, 6));
         bottomWrapper.setOpaque(false);
-        bottomWrapper.setBorder(BorderFactory.createEmptyBorder(0, 24, 16, 24));
-        bottomWrapper.add(createControlDeck(), BorderLayout.CENTER);
-        bottomWrapper.add(createFooterPanel(), BorderLayout.SOUTH);
+        bottomWrapper.setBorder(BorderFactory.createEmptyBorder(10, 22, 14, 22));
+        bottomWrapper.add(createIdentityPanel(), BorderLayout.NORTH);
+        bottomWrapper.add(createControlDeck(),   BorderLayout.CENTER);
+        bottomWrapper.add(createFooterPanel(),   BorderLayout.SOUTH);
         add(bottomWrapper, BorderLayout.SOUTH);
 
-        // Mulai animasi
         marqueeCanvas.startAnimation();
     }
 
-    /**
-     * Membuat Header bergaya Technical HUD terminal
-     */
+    // =========================================================================
+    // HUD HEADER
+    // =========================================================================
     private JPanel createHeaderPanel() {
         JPanel header = new JPanel(new BorderLayout());
         header.setOpaque(true);
         header.setBackground(COLOR_SURFACE);
         header.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0, 0, 1, 0, COLOR_BORDER),
-                BorderFactory.createEmptyBorder(12, 24, 12, 24)
+            BorderFactory.createMatteBorder(0, 0, 1, 0, COLOR_BORDER),
+            BorderFactory.createEmptyBorder(11, 22, 11, 22)
         ));
 
-        // Brand Title
-        JLabel brandLabel = new JLabel("●  IT.PRIDE // JAVA_SWING_CORE");
-        brandLabel.setFont(new Font("Monospaced", Font.BOLD, 13));
-        brandLabel.setForeground(COLOR_TEXT_WHITE);
-        header.add(brandLabel, BorderLayout.WEST);
+        JLabel brand = new JLabel("●  IT.PRIDE // JAVA_SWING_CORE");
+        brand.setFont(new Font("Monospaced", Font.BOLD, 13));
+        brand.setForeground(COLOR_TEXT_WHITE);
+        header.add(brand, BorderLayout.WEST);
 
-        // Tech Chips
-        JPanel chipsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
-        chipsPanel.setOpaque(false);
-        chipsPanel.add(createChipLabel("TARGET: DESKTOP"));
-        chipsPanel.add(createChipLabel("ENGINE: JAVAX.SWING.TIMER"));
-        chipsPanel.add(createChipLabel("FPS: ~60"));
-        header.add(chipsPanel, BorderLayout.EAST);
+        JPanel chips = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        chips.setOpaque(false);
+        chips.add(createChip("DESKTOP"));
+        chips.add(createChip("JAVAX.SWING.TIMER"));
+        chips.add(createChip("~60 FPS"));
+        header.add(chips, BorderLayout.EAST);
 
         return header;
     }
 
-    private JLabel createChipLabel(String text) {
+    private JLabel createChip(String text) {
         JLabel chip = new JLabel(text);
         chip.setFont(new Font("Monospaced", Font.BOLD, 10));
         chip.setForeground(COLOR_TEXT_MUTED);
         chip.setOpaque(true);
         chip.setBackground(COLOR_BG);
         chip.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(COLOR_BORDER, 1),
-                BorderFactory.createEmptyBorder(4, 8, 4, 8)
+            BorderFactory.createLineBorder(COLOR_BORDER, 1),
+            BorderFactory.createEmptyBorder(3, 8, 3, 8)
         ));
         return chip;
     }
 
-    /**
-     * Panel Status Konsol Bergaya Terminal
-     */
-    private JPanel createTypewriterStatusPanel() {
-        JPanel panel = new JPanel(new BorderLayout(8, 4));
+    // =========================================================================
+    // TERMINAL OUTPUT PANEL (teks statis mirip terminal)
+    // =========================================================================
+    private JPanel createTerminalPanel() {
+        JPanel panel = new JPanel(new BorderLayout(0, 4));
         panel.setOpaque(true);
         panel.setBackground(COLOR_SURFACE);
         panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(COLOR_BORDER, 1),
-                BorderFactory.createEmptyBorder(12, 16, 12, 16)
+            BorderFactory.createLineBorder(COLOR_BORDER, 1),
+            BorderFactory.createEmptyBorder(10, 16, 10, 16)
         ));
 
-        JLabel title = new JLabel("TERMINAL_LOG: > echo \"$MAHASISWA_STATEMENT\"");
-        title.setFont(new Font("Monospaced", Font.PLAIN, 11));
-        title.setForeground(COLOR_TEXT_DIM);
+        JLabel cmd = new JLabel("TERMINAL_LOG: > echo \"$MAHASISWA_STATEMENT\"");
+        cmd.setFont(new Font("Monospaced", Font.PLAIN, 11));
+        cmd.setForeground(COLOR_TEXT_DIM);
 
-        JLabel output = new JLabel("[STDOUT]: \"aku bangga menjadi mahasiswa IT\"  █");
-        output.setFont(new Font("Monospaced", Font.BOLD, 15));
-        output.setForeground(COLOR_TEXT_WHITE);
+        JLabel out = new JLabel("[STDOUT]: \"aku bangga menjadi mahasiswa IT\"  █");
+        out.setFont(new Font("Monospaced", Font.BOLD, 15));
+        out.setForeground(COLOR_TEXT_WHITE);
 
-        panel.add(title, BorderLayout.NORTH);
-        panel.add(output, BorderLayout.SOUTH);
+        panel.add(cmd, BorderLayout.NORTH);
+        panel.add(out, BorderLayout.SOUTH);
         return panel;
     }
 
-    /**
-     * Deck Tombol Pengaturan Interaktif
-     */
+    // =========================================================================
+    // KARTU IDENTITAS PEMBUAT (Nama, NIM, Kelas) — STATIS & ELEGAN
+    // =========================================================================
+    private JPanel createIdentityPanel() {
+        JPanel card = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 6));
+        card.setOpaque(true);
+        card.setBackground(COLOR_SURFACE);
+        card.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(COLOR_BORDER, 1),
+            BorderFactory.createEmptyBorder(8, 20, 8, 20)
+        ));
+
+        // Blok Nama
+        card.add(createIdBlock("NAMA", NAMA));
+
+        // Separator vertikal
+        card.add(createSeparator());
+
+        // Blok NIM
+        card.add(createIdBlock("NIM", NIM));
+
+        // Separator vertikal
+        card.add(createSeparator());
+
+        // Blok Kelas
+        card.add(createIdBlock("KELAS", KELAS));
+
+        return card;
+    }
+
+    /** Membuat blok label + nilai identitas dalam susunan vertikal */
+    private JPanel createIdBlock(String label, String value) {
+        JPanel block = new JPanel(new BorderLayout(0, 2));
+        block.setOpaque(false);
+
+        JLabel lbl = new JLabel(label, SwingConstants.CENTER);
+        lbl.setFont(new Font("Monospaced", Font.PLAIN, 10));
+        lbl.setForeground(COLOR_TEXT_DIM);
+
+        JLabel val = new JLabel(value, SwingConstants.CENTER);
+        val.setFont(new Font("Monospaced", Font.BOLD, 13));
+        val.setForeground(COLOR_TEXT_WHITE);
+
+        block.add(lbl, BorderLayout.NORTH);
+        block.add(val, BorderLayout.SOUTH);
+        return block;
+    }
+
+    /** Pemisah vertikal monokromatik tipis antar blok identitas */
+    private JPanel createSeparator() {
+        JPanel sep = new JPanel();
+        sep.setOpaque(true);
+        sep.setBackground(COLOR_BORDER);
+        sep.setPreferredSize(new Dimension(1, 30));
+        return sep;
+    }
+
+    // =========================================================================
+    // CONTROL DECK (Tombol interaktif)
+    // =========================================================================
     private JPanel createControlDeck() {
-        JPanel deck = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 4));
+        JPanel deck = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 4));
         deck.setOpaque(true);
         deck.setBackground(COLOR_SURFACE);
         deck.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(COLOR_BORDER, 1),
-                BorderFactory.createEmptyBorder(8, 12, 8, 12)
+            BorderFactory.createLineBorder(COLOR_BORDER, 1),
+            BorderFactory.createEmptyBorder(6, 12, 6, 12)
         ));
 
-        // Tombol Play / Pause
-        JButton btnPlayPause = createStyledButton("PAUSE");
-        btnPlayPause.addActionListener(e -> {
+        // Play / Pause
+        JButton btnPP = createBtn("PAUSE");
+        btnPP.addActionListener(e -> {
             isPlaying = !isPlaying;
             marqueeCanvas.setRunning(isPlaying);
-            btnPlayPause.setText(isPlaying ? "PAUSE" : "PLAY");
+            btnPP.setText(isPlaying ? "PAUSE" : "PLAY");
         });
 
-        // Tombol Balik Arah
-        JButton btnDirection = createStyledButton("ARAH: KANAN → KIRI");
-        btnDirection.addActionListener(e -> {
+        // Arah
+        JButton btnDir = createBtn("ARAH: KANAN → KIRI");
+        btnDir.addActionListener(e -> {
             moveRightToLeft = !moveRightToLeft;
             marqueeCanvas.setDirection(moveRightToLeft);
-            btnDirection.setText(moveRightToLeft ? "ARAH: KANAN → KIRI" : "ARAH: KIRI → KANAN");
+            btnDir.setText(moveRightToLeft ? "ARAH: KANAN → KIRI" : "ARAH: KIRI → KANAN");
         });
 
-        // Tombol Kecepatan
-        JButton btnSpeed = createStyledButton("SPD: 1X");
-        btnSpeed.addActionListener(e -> {
-            if (speedMultiplier == 1) {
-                speedMultiplier = 2;
-            } else if (speedMultiplier == 2) {
-                speedMultiplier = 3;
-            } else {
-                speedMultiplier = 1;
-            }
+        // Kecepatan
+        JButton btnSpd = createBtn("SPD: 1×");
+        btnSpd.addActionListener(e -> {
+            speedMultiplier = (speedMultiplier == 1) ? 2 : (speedMultiplier == 2) ? 3 : 1;
             marqueeCanvas.setSpeed(speedMultiplier * 2);
-            btnSpeed.setText("SPD: " + speedMultiplier + "X");
+            btnSpd.setText("SPD: " + speedMultiplier + "×");
         });
 
-        // Tombol Toggle Glow
-        JButton btnGlow = createStyledButton("GLOW: ON");
+        // Glow
+        JButton btnGlow = createBtn("GLOW: ON");
         btnGlow.addActionListener(e -> {
-            boolean current = marqueeCanvas.isGlowEnabled();
-            marqueeCanvas.setGlowEnabled(!current);
-            btnGlow.setText(!current ? "GLOW: ON" : "GLOW: OFF");
+            boolean g = marqueeCanvas.isGlowEnabled();
+            marqueeCanvas.setGlowEnabled(!g);
+            btnGlow.setText(!g ? "GLOW: ON" : "GLOW: OFF");
         });
 
-        deck.add(btnPlayPause);
-        deck.add(btnDirection);
-        deck.add(btnSpeed);
+        deck.add(btnPP);
+        deck.add(btnDir);
+        deck.add(btnSpd);
         deck.add(btnGlow);
-
         return deck;
     }
 
-    private JButton createStyledButton(String text) {
+    private JButton createBtn(String text) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Monospaced", Font.BOLD, 11));
         btn.setForeground(COLOR_TEXT_WHITE);
         btn.setBackground(new Color(0x1A, 0x1A, 0x22));
         btn.setFocusPainted(false);
         btn.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(COLOR_BORDER, 1),
-                BorderFactory.createEmptyBorder(6, 14, 6, 14)
+            BorderFactory.createLineBorder(COLOR_BORDER, 1),
+            BorderFactory.createEmptyBorder(6, 12, 6, 12)
         ));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return btn;
     }
 
+    // =========================================================================
+    // FOOTER
+    // =========================================================================
     private JPanel createFooterPanel() {
-        JPanel footer = new JPanel();
-        footer.setOpaque(false);
-        JLabel label = new JLabel("JAVA DESKTOP RUNTIME // JAVAX.SWING // MONOCHROMATIC MINIMALISM");
-        label.setFont(new Font("Monospaced", Font.PLAIN, 10));
-        label.setForeground(COLOR_TEXT_DIM);
-        footer.add(label);
-        return footer;
+        JPanel f = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        f.setOpaque(false);
+        JLabel lbl = new JLabel("JAVA SWING RUNTIME  •  MONOCHROMATIC MINIMALISM  •  KELAS G");
+        lbl.setFont(new Font("Monospaced", Font.PLAIN, 10));
+        lbl.setForeground(COLOR_TEXT_DIM);
+        f.add(lbl);
+        return f;
     }
 
     // =========================================================================
-    // KANVAS MARQUEE: MESIN RENDER RUNNING TEXT SWING
+    // MARQUEE CANVAS — Mesin Render Running Text
     // =========================================================================
     private static class MarqueeCanvas extends JPanel {
 
-        private int xPos = 0;              // Koordinat X pergeseran teks
-        private int speed = 2;             // Piksel yang digeser per tick
-        private boolean isRunning = true;
-        private boolean moveRTL = true;    // Kanan ke Kiri (Right to Left)
+        /*
+         * xPos    : koordinat X piksel posisi teks saat ini (berubah tiap tick)
+         * speed   : jumlah piksel yang digeser per 1 tick timer (~16ms)
+         * moveRTL : true = kanan ke kiri (xPos berkurang), false = sebaliknya
+         */
+        private int     xPos        = 0;
+        private int     speed       = 2;
+        private boolean isRunning   = true;
+        private boolean moveRTL     = true;
         private boolean glowEnabled = true;
 
-        private final Font primaryFont = new Font("Monospaced", Font.BOLD, 36);
-        private final Font secondaryFont = new Font("Monospaced", Font.BOLD, 12);
-        private final Timer animationTimer;
+        private final Font fontPrimary   = new Font("Monospaced", Font.BOLD, 36);
+        private final Font fontSecondary = new Font("Monospaced", Font.BOLD, 12);
+        private final Timer timer;
 
         public MarqueeCanvas() {
             setOpaque(true);
             setBackground(COLOR_STAGE);
             setBorder(BorderFactory.createLineBorder(COLOR_BORDER_GLOW, 1));
+            setPreferredSize(new Dimension(0, 160));
 
-            // Inisialisasi Timer animasi (~60 FPS -> 16 milidetik per frame)
-            ActionListener tickAction = e -> {
+            /*
+             * Timer ~60 FPS (16 ms per tick).
+             * Setiap tick:
+             *   1. xPos digeser sebesar 'speed' piksel.
+             *   2. repaint() dipanggil → Java menjadwalkan paintComponent().
+             */
+            timer = new Timer(16, (ActionListener) e -> {
                 if (!isRunning) return;
-
-                if (moveRTL) {
-                    xPos -= speed;
-                } else {
-                    xPos += speed;
-                }
-
-                // Meminta Swing untuk merender ulang panel (memanggil paintComponent)
+                xPos += moveRTL ? -speed : speed;
                 repaint();
-            };
-
-            animationTimer = new Timer(16, tickAction);
+            });
         }
 
-        public void startAnimation() {
-            animationTimer.start();
-        }
-
-        public void setRunning(boolean running) {
-            this.isRunning = running;
-        }
-
-        public void setDirection(boolean rightToLeft) {
-            this.moveRTL = rightToLeft;
-        }
-
-        public void setSpeed(int pxPerTick) {
-            this.speed = pxPerTick;
-        }
-
-        public void setGlowEnabled(boolean glow) {
-            this.glowEnabled = glow;
-            repaint();
-        }
-
-        public boolean isGlowEnabled() {
-            return glowEnabled;
-        }
+        public void startAnimation()          { timer.start(); }
+        public void setRunning(boolean r)     { this.isRunning = r; }
+        public void setDirection(boolean rtl) { this.moveRTL = rtl; }
+        public void setSpeed(int px)          { this.speed = px; }
+        public void setGlowEnabled(boolean g) { this.glowEnabled = g; repaint(); }
+        public boolean isGlowEnabled()        { return glowEnabled; }
 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g;
+            Graphics2D g2 = (Graphics2D) g;
 
-            // 1. Aktifkan Antialiasing untuk Teks dan Grafis Halus
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            // --- Aktifkan Antialiasing ---
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,      RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING,         RenderingHints.VALUE_RENDER_QUALITY);
 
-            int width = getWidth();
-            int height = getHeight();
+            int w = getWidth(), h = getHeight();
 
-            // 2. Gambar Kisi-kisi Vektor Minimalis di Latar Panggung
-            g2d.setColor(new Color(0x14, 0x14, 0x1B));
-            for (int x = 0; x < width; x += 32) {
-                g2d.drawLine(x, 0, x, height);
-            }
-            for (int y = 0; y < height; y += 32) {
-                g2d.drawLine(0, y, width, y);
-            }
+            // --- Kisi-kisi latar ---
+            g2.setColor(new Color(0x14, 0x14, 0x1B));
+            for (int x = 0; x < w; x += 32) g2.drawLine(x, 0, x, h);
+            for (int y = 0; y < h; y += 32) g2.drawLine(0, y, w, y);
 
-            // 3. Gambar Reticle Sudut (+) ala HUD
-            g2d.setColor(COLOR_TEXT_DIM);
-            g2d.setFont(new Font("Monospaced", Font.PLAIN, 14));
-            g2d.drawString("+", 10, 20);
-            g2d.drawString("+", width - 20, 20);
-            g2d.drawString("+", 10, height - 10);
-            g2d.drawString("+", width - 20, height - 10);
+            // --- Reticle sudut (+) ---
+            g2.setColor(COLOR_TEXT_DIM);
+            g2.setFont(new Font("Monospaced", Font.PLAIN, 13));
+            g2.drawString("+", 10, 18);
+            g2.drawString("+", w - 20, 18);
+            g2.drawString("+", 10, h - 8);
+            g2.drawString("+", w - 20, h - 8);
 
-            // 4. Gambar Ambient Counter Teks di bagian atas
-            g2d.setFont(secondaryFont);
-            g2d.setColor(COLOR_TEXT_DIM);
-            g2d.drawString(SECONDARY_TEXT, 30, 24);
+            // --- Counter teks atas ---
+            g2.setFont(fontSecondary);
+            g2.setColor(COLOR_TEXT_DIM);
+            g2.drawString(SECONDARY_TEXT, 30, 22);
 
-            // 5. Gambar Running Text Utama (Marquee)
-            g2d.setFont(primaryFont);
-            FontMetrics fm = g2d.getFontMetrics(primaryFont);
-            String unitText = PRIMARY_TEXT + "   ///   ";
-            int unitWidth = fm.stringWidth(unitText);
+            // --- RUNNING TEXT UTAMA ---
+            g2.setFont(fontPrimary);
+            FontMetrics fm = g2.getFontMetrics();
+            String unit  = PRIMARY_TEXT + "   ///   ";
+            int unitW    = fm.stringWidth(unit);
 
-            // LOGIKA SEAMLESS MODULO LOOPING:
-            // Jaga nilai xPos selalu berada dalam rentang [ -unitWidth, 0 ]
-            if (unitWidth > 0) {
-                if (xPos <= -unitWidth) {
-                    xPos += unitWidth;
-                } else if (xPos > 0) {
-                    xPos -= unitWidth;
-                }
+            /*
+             * LOGIKA SEAMLESS MODULO LOOP:
+             * Ketika xPos melebihi -unitW, tambahkan kembali unitW.
+             * Karena teks dirender berulang tiap unitW piksel, titik
+             * reset tidak terlihat oleh mata → loop tanpa celah.
+             */
+            if (unitW > 0) {
+                if (xPos <= -unitW) xPos += unitW;
+                if (xPos > 0)       xPos -= unitW;
             }
 
-            // Hitung koordinat Y agar teks berada persis di tengah panggung
-            int yPos = (height / 2) + (fm.getAscent() / 2) - 4;
+            int yPos = h / 2 + fm.getAscent() / 2 - 4;
+            int cx   = xPos;
 
-            // Render duplikasi teks secara beruntun dari kiri hingga melampaui lebar panggung
-            int currentX = xPos;
-            while (currentX < width) {
-                // A. Efek Layered Drop Shadow / Glow Halus
+            while (cx < w) {
+                // Lapisan glow (bayangan difus berlapis)
                 if (glowEnabled) {
-                    g2d.setColor(new Color(255, 255, 255, 30));
-                    g2d.drawString(unitText, currentX - 1, yPos - 1);
-                    g2d.drawString(unitText, currentX + 1, yPos + 1);
-                    g2d.drawString(unitText, currentX, yPos + 2);
-
-                    g2d.setColor(new Color(255, 255, 255, 70));
-                    g2d.drawString(unitText, currentX, yPos + 1);
+                    g2.setColor(new Color(255, 255, 255, 28));
+                    g2.drawString(unit, cx - 1, yPos - 1);
+                    g2.drawString(unit, cx + 1, yPos + 1);
+                    g2.setColor(new Color(255, 255, 255, 65));
+                    g2.drawString(unit, cx, yPos + 1);
                 }
-
-                // B. Teks Utama Solid Putih Bersih
-                g2d.setColor(COLOR_TEXT_WHITE);
-                g2d.drawString(unitText, currentX, yPos);
-
-                currentX += unitWidth;
+                // Teks putih solid
+                g2.setColor(COLOR_TEXT_WHITE);
+                g2.drawString(unit, cx, yPos);
+                cx += unitW;
             }
 
-            // 6. Efek Vignette / Gradient Mask Halus di Sisi Kiri & Kanan
-            // Memudarkan teks saat mendekati tepi kanvas
-            Paint leftGradient = new GradientPaint(0, 0, COLOR_STAGE, 40, 0, new Color(COLOR_STAGE.getRed(), COLOR_STAGE.getGreen(), COLOR_STAGE.getBlue(), 0));
-            g2d.setPaint(leftGradient);
-            g2d.fillRect(0, 0, 40, height);
+            // --- Gradient Mask tepi kiri & kanan ---
+            g2.setPaint(new GradientPaint(0, 0, COLOR_STAGE, 42, 0,
+                new Color(COLOR_STAGE.getRed(), COLOR_STAGE.getGreen(), COLOR_STAGE.getBlue(), 0)));
+            g2.fillRect(0, 0, 42, h);
 
-            Paint rightGradient = new GradientPaint(width - 40, 0, new Color(COLOR_STAGE.getRed(), COLOR_STAGE.getGreen(), COLOR_STAGE.getBlue(), 0), width, 0, COLOR_STAGE);
-            g2d.setPaint(rightGradient);
-            g2d.fillRect(width - 40, 0, 40, height);
+            g2.setPaint(new GradientPaint(w - 42, 0,
+                new Color(COLOR_STAGE.getRed(), COLOR_STAGE.getGreen(), COLOR_STAGE.getBlue(), 0), w, 0, COLOR_STAGE));
+            g2.fillRect(w - 42, 0, 42, h);
         }
     }
 
-    /**
-     * Entry Point Utama Aplikasi
-     */
+    // =========================================================================
+    // ENTRY POINT
+    // =========================================================================
     public static void main(String[] args) {
-        // Jalankan GUI pada Event Dispatch Thread (EDT) sesuai standar Java Swing
-        SwingUtilities.invokeLater(() -> {
-            RunningTeksIT app = new RunningTeksIT();
-            app.setVisible(true);
-        });
+        // Selalu buat GUI di Event Dispatch Thread (EDT) — standar Java Swing
+        SwingUtilities.invokeLater(() -> new RunningTeksIT().setVisible(true));
     }
 }
